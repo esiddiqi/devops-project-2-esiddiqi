@@ -2,39 +2,36 @@
 - hosts: jenkins-master
   become: true
   tasks:
-  - name: add jenkins repo
-    ansible.builtin.yum_repository:
-      name: jenkins
-      file: /etc/yum.repos.d/jenkins.repo
-      baseurl: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    - name: add jenkins key and repo
+      yum_repository:
+        name: jenkins
+        description: adding jenkins repo
+        baseurl: https://pkg.jenkins.io/redhat-stable
+        gpgcheck: yes
+        gpgkey: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+        state: present
 
-  - name: add jenkins key
-    ansible.buildin.apt_key:
-      url: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-      state: present
+    - name: install java using amazon-linux-extras
+      command: amazon-linux-extras install java-openjdk11 -y
+      become: yes
+      ignore_errors: yes
 
-  - name: install java
-    builtin.yum:
-      name:
-       - fontconfig
-       - java-17-openjdk
-      state: present
+    - name: install jenkins
+      yum:
+        name: jenkins
+        state: present
 
-  - name: install jenkins
-    builtin.yum:
-      name: jenkins
-      state: present
-
-  - name: start jenkins service
-    service:
-      name: jenkins
-      state: started
+    - name: start jenkins service
+      service:
+        name: jenkins
+        state: started
 
 
-  - name: enable jenkins to start at boot time
-    service:
-      name: jenkins
-      enabled: yes
+    - name: enable jenkins to start at boot time
+      service:
+        name: jenkins
+        enabled: yes
+
 
 
 
