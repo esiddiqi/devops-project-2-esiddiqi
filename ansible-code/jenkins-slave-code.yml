@@ -1,0 +1,50 @@
+---
+- hosts: jenkins-slave
+  become: true
+  tasks:
+    - name: install java using amazon-linux-extras
+      command: amazon-linux-extras install java-openjdk11 -y
+      become: yes
+      ignore_errors: yes
+
+    - name: Download apache maven
+      get_url:
+        url: https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
+        dest: /opt/
+
+
+    - name: Extract Maven archive
+      unarchive:
+        src: /opt/apache-maven-3.9.6-bin.tar.gz
+        dest: /opt/
+        remote_src: yes
+
+#
+#    - name: Create symbolic link
+#      file:
+#        src: "/opt/apache-maven-3.9.6"
+#        dest: "/opt/maven"
+#        state: link
+#
+#    - name: add Maven to PATH
+#      lineinfile:
+#        path: "/etc/environment"
+#        line: "PATH=$PATH:/opt/maven/bin"
+#
+#
+#
+#    - name: install maven
+#      yum:
+#        name: maven
+#        state: present
+#
+#    - name: start jenkins service
+#      service:
+#        name: jenkins
+#        state: started
+#
+#
+#    - name: enable jenkins to start at boot time
+#      service:
+#        name: jenkins
+#        enabled: yes
