@@ -1,7 +1,7 @@
 resource "aws_instance" "demo-server" {
   ami             = "ami-0f960def03d1071d3"
   instance_type   = "t2.micro"
-  key_name        = "emaad-keypair"
+  key_name        = "emaad-keypair-pem"
 #  security_groups = ["demo-sg"]
   vpc_security_group_ids = [aws_security_group.demo-sg.id]
   subnet_id       = aws_subnet.project-2-subnet-01.id
