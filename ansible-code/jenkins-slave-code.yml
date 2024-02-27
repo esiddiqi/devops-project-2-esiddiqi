@@ -19,6 +19,16 @@
         dest: /opt/
         remote_src: yes
 
+    - name: Install Docker
+      yum:
+         name: docker.io
+         state: present
+
+    - name: Start Docker service
+      service:
+          name: docker
+          state: started
+
 #
 #    - name: Create symbolic link
 #      file:
