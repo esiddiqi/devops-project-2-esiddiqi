@@ -33,6 +33,14 @@
         enabled: yes
 
 
+        #add steps to install helm
+        #add steps to install maven
+        #add steps to install kubectl
+        #add steps to install aws cli
+        #add steps to install docker
+
+
+
 
 
 
